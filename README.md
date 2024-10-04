@@ -1,4 +1,4 @@
-[![Java CI with Gradle](https://github.com/SiliconLabs/java_packet_trace_library/actions/workflows/gradle.yml/badge.svg)](https://github.com/SiliconLabs/java_packet_trace_library/actions/workflows/gradle.yml)
+[![Java CI with Gradle](https://github.com/SiliconLabsSoftware/java-pti/actions/workflows/gradle.yml/badge.svg)](https://github.com/SiliconLabsSoftware/java-pti/actions/workflows/gradle.yml)
 
 # What is this?
 
