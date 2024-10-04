@@ -28,12 +28,12 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew all
       - name: Archive jar file
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: silabs-pti
           path: silabs-pti/build/libs/*.jar
       - name: Archive license file
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: silabs-pti
           path: LICENSE.txt
