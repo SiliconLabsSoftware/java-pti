@@ -27,7 +27,7 @@ import com.silabs.pti.debugchannel.EventType;
 public class WiresharkUtil {
 
   public enum PcapngExportMode {
-    NOFCS("nofcs"), WISUN_AUTO("wisun-auto"), WISUN_RAIL_WISUN("wisun"), WISUN_RAIL_CUSTOM("wisun-custom");
+    NOFCS("nofcs"), WISUN_AUTO("wisun-auto"), WISUN_RAIL_WISUN("wisun"), WISUN_RAIL_CUSTOM("wisun-custom"), SILABS_DEBUG_CHANNEL("silabs-dch");
 
     private final String id;
 
@@ -44,7 +44,7 @@ public class WiresharkUtil {
     }
 
     public static PcapngExportMode defaultMode() {
-      return NOFCS;
+      return SILABS_DEBUG_CHANNEL;
     }
 
     public String id() {
