@@ -27,6 +27,9 @@ repositories {
 java {
   withJavadocJar()
   withSourcesJar()
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(11)
+  }   
 }
 
 dependencies {
