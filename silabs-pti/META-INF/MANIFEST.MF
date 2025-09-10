@@ -4,6 +4,7 @@ Bundle-Name: silabs-pti
 Bundle-SymbolicName: com.silabs.external.silabs_pti
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-21
+Require-Bundle: com.silabs.external.java_pcap
 Automatic-Module-Name: silabs.pti
 Export-Package: com.silabs.pti,
  com.silabs.pti.adapter,
