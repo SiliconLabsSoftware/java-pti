@@ -29,7 +29,17 @@ java {
   withJavadocJar()
   withSourcesJar()
   toolchain {
-    languageVersion = JavaLanguageVersion.of(11)
+    def requestedVersion = providers
+            .systemProperty("javaVersion")
+            .orElse(providers.environmentVariable("JAVA_VERSION"))
+            .orElse("11") // fallback if nothing set
+    languageVersion = JavaLanguageVersion.of(requestedVersion.map { 
+      try { 
+        Integer.parseInt(it) 
+      } catch (NumberFormatException e) { 
+        throw new GradleException("Invalid javaVersion/JAVA_VERSION: '$it' is not a valid integer") 
+      } 
+    }.get())
   }   
 }
 
