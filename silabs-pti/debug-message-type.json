@@ -393,6 +393,12 @@
       "longDescription": "Configuration over SWO",
       "status": ""
     },
+    "ML_PROFILER": {
+      "code": "0x0090",
+      "shortDescription": "ml_profiler",
+      "longDescription": "Machine learning model profiler statistics",
+      "status": ""
+    },
     "USER_COMMAND": {
       "code": "0xFFFE",
       "shortDescription": "UserCmd",
