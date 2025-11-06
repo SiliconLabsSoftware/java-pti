@@ -14,7 +14,7 @@
   </parent>
 
   <properties>
-    <java.pti.version>1.13.0</java.pti.version>
+    <java.pti.version>1.13.1</java.pti.version>
   </properties>
 
   <modules>
