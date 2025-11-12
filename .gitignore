@@ -12,5 +12,5 @@ bin
 
 # Ignore some generated files
 silabs-pti/debug-message-type-gen.h
-
+silabs-pti/sl_iostream_swo_itm_8.h
 release/

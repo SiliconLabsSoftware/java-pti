@@ -86,21 +86,22 @@ task createDebugMessageTypes() {
     def javaprops = file("src/main/resources/debugMessageType.properties")
     def javaenum = file("src/main/java/com/silabs/pti/debugchannel/DebugMessageType.java")
     def cenum = file("debug-message-type-gen.h")
+    def cenum2 = file("sl_iostream_swo_itm_8.h")
     
     // Sort the types
     def sortedTypes = json.types.sort { a,b -> a.getValue().code <=> b.getValue().code }
     
     // Write props
-    project.logger.lifecycle("Write ${javaprops}")
     def text = "# !!!! This file is generated via 'gradle createDebugMessageTypes' command. Please do not edit manually!!!!!\n\n"
     sortedTypes.each {
       t ->
         text += "${t.getKey()}.long=${t.getValue().longDescription}\n"
         text += "${t.getKey()}=${t.getValue().shortDescription}\n"
     }
+    project.logger.lifecycle("🎁 Write ${javaprops}")
     javaprops.text = text
     
-    // Write enum
+    // Write java enum
     text = """/*******************************************************************************
  * # License
  * Copyright 2022 Silicon Laboratories Inc. www.silabs.com
@@ -187,15 +188,14 @@ public enum DebugMessageType {
     text = text + "\n  public static int featureLevel() { return ${json.featureLevel}; }\n"
     text = text + "\n  public static String featureDate() { return \"${json.featureDate}\"; }\n"
     text = text + "\n}"
-    project.logger.lifecycle("Write ${javaenum}")
+    project.logger.lifecycle("🎁 Write ${javaenum}")
     javaenum.text = text
 
     // Write C enum
-    project.logger.lifecycle("Write ${cenum}")
-    text = """// (c) Silicon Laboratories, Inc., 2012, 2022
+    text = """// (c) Silicon Laboratories, Inc., 2012, 2022, 2025
 //
 // !!!! This file is generated via 'gradle createDebugMessageTypes' command inside 
-// the public repo https://github.com/SiliconLabs/java_packet_trace_library
+// the public repo https://github.com/SiliconLabsSoftware/java-pti
 //
 // Please do not edit manually!!!!!\n
 #ifndef __SL_DEBUG_MESSAGE_TYPES__
@@ -231,8 +231,79 @@ enum {
     }
 
     text = text + "};\n\n#define SL_DEBUG_MESSAGE_TYPE_FEATURE_LEVEL (${json.featureLevel})\n\n#endif // SL_DEBUG_MESSAGE_TYPES\n"
+    project.logger.lifecycle("🎁 Write ${cenum}")
     cenum.text = text
 
+    text = """/***************************************************************************//**
+ * @file
+ * @brief IO Stream SWO Component.
+ *******************************************************************************
+ * # License
+ * <b>Copyright 2019 Silicon Laboratories Inc. www.silabs.com</b>
+ *******************************************************************************
+ *
+ * SPDX-License-Identifier: Zlib
+ *
+ * The licensor of this software is Silicon Laboratories Inc.
+ *
+ * This software is provided 'as-is', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ *
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
+ *
+ ******************************************************************************/
+
+//
+// !!!! This file is generated via 'gradle createDebugMessageTypes' command inside 
+// the public repo https://github.com/SiliconLabsSoftware/java-pti
+//
+// Please do not edit manually!!!!!\n
+
+#ifndef SL_IOSTREAM_SWO_ITM_8_H
+#define SL_IOSTREAM_SWO_ITM_8_H
+
+#include "sl_enum.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+SL_ENUM_GENERIC(sl_iostream_swo_itm_8_msg_type_t, uint16_t) {
+"""
+
+    // these are for backwards compatibility, with the EM_ prefix.
+    sortedTypes.each {
+      t ->
+        def prefix = "EM_DEBUG"
+        if ( t.getKey().startsWith("PACKET_TRACE_") ||  t.getKey().startsWith("FLASH_") 
+             ||  t.getKey().startsWith("EEPROM_") ||  t.getKey().startsWith("RAM_")
+             ||  t.getKey().startsWith("SIMULATED_") ||  t.getKey().startsWith("AEM_")||  t.getKey().startsWith("CPU_")) {
+          prefix = "EM"
+        }
+        text += "  ${prefix}_${t.getKey()} = ${t.getValue().code},\n"
+    }
+    text = text + """\n};
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* SL_IOSTREAM_SWO_ITM_8_H */
+
+"""
+    project.logger.lifecycle("🎁 Write ${cenum2}")
+    cenum2.text = text
   }
 }
 
